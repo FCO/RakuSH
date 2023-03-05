@@ -1,0 +1,6 @@
+use Test;
+use RakuSH;
+
+pass "replace me";
+
+done-testing;
