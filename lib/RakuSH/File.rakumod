@@ -11,7 +11,7 @@ method new(IO::Path() $file) {
       :io-path($file),
       :cmd[qq|.file: "$file.absolute()"|],
       :data{
-          name => $file.relative,
+          name => $file.absolute,
           type => do given $file {
               when :l { "link" }
               when :f { "file" }

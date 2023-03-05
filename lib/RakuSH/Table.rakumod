@@ -9,12 +9,13 @@ has Str @.columns;
 method default-format { "table" }
 
 method table {
+    # TODO: Make it work for multiline cels
     my @columns     = "#", |@!columns;
     my %column-size = @columns.map: {
         $_ => (
             .Str eq "#"
             ?? @.data.elems.chars
-            !! @.data»{$_}».Str».chars.max max .chars
+            !! @.data»{$_}.map({ (.defined ?? .Str !! "").chars }).max max .chars
         )
     };
     my $index = 0;
@@ -22,14 +23,14 @@ method table {
       @columns.map(-> Str $col {
           $col eq "#"
           ?? grey ($index++).fmt: "%{%column-size{ $col } }d"
-          !! .{$col}.gist.fmt: "% -{ %column-size{ $col } }s"
+          !! (.{$col} // "").gist.fmt: "% -{ %column-size{ $col } }s"
       })
     });
     [
         "┌─" ~ @columns».&{ "─" x %column-size{ $_ } }.join("─┬─") ~ "─┐",
         "│ " ~ @columns».&{ .fmt("%{ %column-size{ $_ } }s").&header }.join(" │ ") ~ " │",
         "├─" ~ @columns».&{ "─" x %column-size{ $_ } }.join("─┼─") ~ "─┤",
-        |@data.map(-> @row { "│ " ~ @row».Str.join(" │ ") ~ " │"}),
+        |@data.map(-> @row { "│ " ~ @row.map({ .defined ?? .Str !! "" }).join(" │ ") ~ " │"}),
         "└─" ~ @columns».&{ "─" x %column-size{ $_ } }.join("─┴─") ~ "─┘",
     ].join("\n") ~ "\n"
 }

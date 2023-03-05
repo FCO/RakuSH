@@ -8,11 +8,11 @@ has @.data handles <AT-POS elems>;
 method default-format { "list" }
 
 method grep(&block) {
-    self.clone: :cmd[|@.cmd, "==> grep &block"], :data(@!data.grep: &block)
+    self.clone: :data(@!data.grep: &block)
 }
 
 multi method sort(&block) {
-    self.clone: :cmd[|@.cmd, "==> sort &block"], :data(@!data.sort: &block)
+    self.clone: :data(@!data.sort: &block)
 }
 
 method list {
