@@ -96,3 +96,12 @@ multi grep(&block, RakuSH::Proc $proc) is export {
 multi AT-POS(UInt $num, RakuSH::Proc $proc) is export {
     $proc.apply: "==> AT-POS $num", *[$num]
 }
+
+multi to(RakuSH::Proc $proc, Bool :$list! where *.so) is export {
+    $proc.apply: "==> to :list", *.to-list
+}
+
+sub ignore-column(*@name) is export {
+    my RakuSH::Proc $proc = @name.pop;
+    $proc.apply: "==> ignore-column <@name[]>", *.ignore-column: @name
+}

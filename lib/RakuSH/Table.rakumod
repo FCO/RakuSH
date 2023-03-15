@@ -35,24 +35,15 @@ method table {
     ].join("\n") ~ "\n"
 }
 
-method ignore-column(Str $column-name where { @!columns.any eq $column-name }) {
-    self.clone: :cmd[|@.cmd, "==> ignore-column $column-name"], :columns(@!columns.grep: { $_ ne $column-name})
-}
-
-multi to(::?CLASS:D $_, Bool :$list! where *.so) is export {
-    .to-list
+method ignore-column(*@column-name where { @!columns.any eq @column-name.all }, *%pars where { .keys.all eq @!columns.any }) {
+    self.clone: :columns(@!columns.grep: { $_ eq [|@column-name, %pars.keys].none })
 }
 
 method to-list {
     RakuSH::List.new:
-        :cmd[|@.cmd, "==> to :list"],
         :data(@.data.map: -> %row {
             %row ~~ RakuSH::Output
             ?? %row.summary
             !! @!columns».&{ "{ .Str }: { %row{$_} }" }.join: "; "
         }),
-}
-
-sub ignore-column($name, ::?CLASS $table) is export {
-    $table.ignore-column: $name
 }
