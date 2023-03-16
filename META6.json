@@ -1,25 +1,32 @@
 {
-  "authors": ["Fernando Corrêa"],
-  "build-depends": [],
-  "depends": [],
+  "authors": [
+    "Fernando Corrêa"
+  ],
+  "build-depends": [
+  ],
+  "depends": [
+  ],
   "description": "blah blah blah",
   "license": "Artistic-2.0",
   "name": "RakuSH",
   "perl": "6.d",
   "provides": {
     "RakuSH": "lib/RakuSH.rakumod",
-    "RakuSH::Utils": "lib/RakuSH/Utils.rakumod",
-    "RakuSH::Output": "lib/RakuSH/Output.rakumod",
-    "RakuSH::Table": "lib/RakuSH/Table.rakumod",
-    "RakuSH::List": "lib/RakuSH/List.rakumod",
     "RakuSH::File": "lib/RakuSH/File.rakumod",
-    "RakuSH::Row": "lib/RakuSH/Row.rakumod",
     "RakuSH::Functions": "lib/RakuSH/Functions.rakumod",
-    "RakuSH::Proc": "lib/RakuSH/Proc.rakumod"
+    "RakuSH::List": "lib/RakuSH/List.rakumod",
+    "RakuSH::Output": "lib/RakuSH/Output.rakumod",
+    "RakuSH::Proc": "lib/RakuSH/Proc.rakumod",
+    "RakuSH::Row": "lib/RakuSH/Row.rakumod",
+    "RakuSH::Table": "lib/RakuSH/Table.rakumod",
+    "RakuSH::Utils": "lib/RakuSH/Utils.rakumod"
   },
-  "resources": [],
-  "source-url": "",
-  "tags": [],
-  "test-depends": [],
+  "resources": [
+  ],
+  "source-url": "https://github.com/FCO/RakuSH.git",
+  "tags": [
+  ],
+  "test-depends": [
+  ],
   "version": "0.0.1"
 }

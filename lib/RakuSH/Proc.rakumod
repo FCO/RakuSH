@@ -9,8 +9,11 @@ has Proc           $.proc;
 has Bool           $.ok  = True;
 has RakuSH::Output $.out;
 has RakuSH::Output $.err;
+has Bool           $.started = True;
+
 
 method out {
+    $!proc = run @!cmd, :out, :err unless $!started;
     .return with $!out;
     return Empty unless $!proc;
     my @data = $!proc.out.lines: :close;
@@ -32,6 +35,9 @@ method cmd-str {
 }
 
 method gist {
+    unless $!started {
+        return run(@!cmd).gist;
+    }
     [
         self.cmd-str,
         "",

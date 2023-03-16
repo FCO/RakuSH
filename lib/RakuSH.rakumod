@@ -10,8 +10,12 @@ has IO::Path() $.pwd  = ".".IO;
 has IO::Path() @.path = %*ENV<PATH>.split: ":";
 has            %.on-path;
 
+method list-bins(@path) {
+    @path.reverse.map({ |.dir if .e && .d }).grep({ .x })
+}
+
 method reload-path {
-    %!on-path = @!path.reverse.map({ |.dir if .e && .d }).grep({ .x }).map({ .basename => $_ })
+    %!on-path = $.list-bins(@!path).map({ .basename => $_ })
 }
 
 method TWEAK(|) { self.reload-path }
@@ -21,28 +25,30 @@ sub proc-to-list(Str @cmd, Proc $p) {
     RakuSH::List.new: :@cmd, :@data
 }
 
-# multi method FALLBACK(Str $name where { %!on-path{$name}:exists }, :$flags) {
-#     self.FALLBACK: $name, :flags[$flags, ]
-# }
-multi method FALLBACK(Str $name where { %!on-path{$name}:exists }, :@flags) {
+multi method FALLBACK(Str $name where { %!on-path{$name}:exists }, :@flags, *%_ where *.not) {
+    #RakuSH::Proc.new: :cmd["$name :flags<@flags[]>"], :!started
     RakuSH::Proc.new: :cmd["$name :flags<@flags[]>"], :proc(run %!on-path{$name}, |@flags, :out, :err);
-    # my $p = run %!on-path{$name}, |@flags, :out;
-    # my @data = $p.out.lines: :close;
-    # RakuSH::List.new: :cmd["$name :flags<@flags[]>"], :@data
 }
 
-# multi method FALLBACK(Str $name where { %!on-path{$name}:exists }, |c) {
-#     say "exec: %!on-path{$name}.absolute()";
-# }
+multi method FALLBACK(Str $name where { %!on-path{$name}:exists }, :$flags, *%_ where *.not) {
+    self.FALLBACK: $name, :flags[$flags, ]
+}
 
-# sub capture-to-pars(Capture $c) {
-#     $c.hash.kv.map: -> $flag, \value {
-#         given value {
-#             when value =:= True {
-#             }
-#         }
-#     }
-# }
+multi method FALLBACK(Str $name where { %!on-path{$name}:exists }, |c) {
+    my @flags =
+        |c.hash.kv.map(-> $flag, $value {
+            "-{ "-" if $flag.chars > 1 }{$flag}{
+                given $value {
+                    when Bool     { "" }
+                    when IO::Path { "='.absolute()'" }
+                    default       { "='.Str()'" }
+                }
+            }"
+        }),
+        |c.list
+    ;
+    self.FALLBACK: $name, :@flags
+}
 
 method ls(IO() $dir = ".".IO --> RakuSH::Proc) {
     my @files = $dir.dir;

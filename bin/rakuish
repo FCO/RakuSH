@@ -1,0 +1,22 @@
+#!/ust/bin/env raku
+
+REPL.^find_method("interactive_prompt").wrap: method (|c) {
+  &*PS1.(|c)
+}
+
+use RakuSH;
+use RakuSH::Functions;
+
+my &*PS1 = sub ($index) {
+  my &bold   := -> $_ { "\o33[1m{ $_ }\o33[m" }
+  my &green  := -> $_ { "\o33[32;1m{ $_ }\o33[m" }
+  my &yellow := -> $_ { "\o33[33;1m{ $_ }\o33[m" }
+  my &pink   := -> $_ { "\o33[31;1m{ $_ }\o33[m" }
+  my &grey   := -> $_ { "\o33[30;1m{ $_ }\o33[m" }
+
+  "{ bold '<' }{ pink $*USER }{ bold '@' }{ yellow $*KERNEL.hostname }{ bold '[' }{ grey $*CWD.absolute }{ bold ']' } { green '$*' ~ $index}{ bold '>' } "
+}
+
+my RakuSH $*rakuish := RakuSH.new;
+
+repl;
