@@ -1,32 +1,25 @@
 {
-  "authors": [
-    "Fernando Corrêa"
-  ],
-  "build-depends": [
-  ],
-  "depends": [
-      "Prettier::Table"
-  ],
+  "authors": ["Fernando Corrêa"],
+  "build-depends": [],
+  "depends": [],
   "description": "blah blah blah",
   "license": "Artistic-2.0",
   "name": "RakuSH",
   "perl": "6.d",
   "provides": {
-      "RakuSH": "lib/RakuSH.rakumod",
-      "RakuSH::Utils": "lib/RakuSH/Utils.rakumod",
-      "RakuSH::Output": "lib/RakuSH/Output.rakumod",
-      "RakuSH::Table": "lib/RakuSH/Table.rakumod",
-      "RakuSH::List": "lib/RakuSH/List.rakumod",
-      "RakuSH::File": "lib/RakuSH/File.rakumod",
-      "RakuSH::Row": "lib/RakuSH/Row.rakumod",
-      "RakuSH::Proc": "lib/RakuSH/Proc.rakumod"
+    "RakuSH": "lib/RakuSH.rakumod",
+    "RakuSH::Utils": "lib/RakuSH/Utils.rakumod",
+    "RakuSH::Output": "lib/RakuSH/Output.rakumod",
+    "RakuSH::Table": "lib/RakuSH/Table.rakumod",
+    "RakuSH::List": "lib/RakuSH/List.rakumod",
+    "RakuSH::File": "lib/RakuSH/File.rakumod",
+    "RakuSH::Row": "lib/RakuSH/Row.rakumod",
+    "RakuSH::Functions": "lib/RakuSH/Functions.rakumod",
+    "RakuSH::Proc": "lib/RakuSH/Proc.rakumod"
   },
-  "resources": [
-  ],
+  "resources": [],
   "source-url": "",
-  "tags": [
-  ],
-  "test-depends": [
-  ],
+  "tags": [],
+  "test-depends": [],
   "version": "0.0.1"
 }

@@ -48,7 +48,7 @@ method ls(IO() $dir = ".".IO --> RakuSH::Proc) {
     my @files = $dir.dir;
 
     RakuSH::Proc.new:
-        :cmd[qq<ls "$dir.absolute()">],
+        :cmd[qq<.ls: "$dir.absolute()">],
         :out(RakuSH::Table.new: :data(@files.map: { self.file($_).out }), :columns(RakuSH::File.columns))
     ;
 }
